@@ -5,7 +5,8 @@ from ..models.serializer import UserSchema
 
 user = Blueprint('User', __name__, url_prefix='/user')
 
-
+# Show all users [GET]
+# TESTED - OK
 @user.route('/show', methods=['GET'])
 def show():
     user = User.query.all()
@@ -13,15 +14,17 @@ def show():
 
     return schema.jsonify(user), 200
 
-
-@user.route('/show/<int:id>', methods=['POST'])
+# Show one user [GET]
+# TESTED - OK
+@user.route('/show/<int:id>', methods=['GET'])
 def show_id(id):
     user = User.query.get(id)
     schema = UserSchema()
 
     return schema.jsonify(user), 200
 
-
+# Create a user [POST]
+# TESTED - OK
 @user.route('/create', methods=['POST'])
 def create():
     data = request.get_json()
@@ -35,16 +38,24 @@ def create():
     return schema.jsonify(user), 200
 
 
-@user.route('/edit/<int:id>', methods=['PUT'])
+# Update a userby ID [PATCH]
+# TESTING - OK
+@user.route('/edit/<int:id>', methods=['PATCH'])
 def edit(id):
-    user_schema = UserSchema()
-    query = User.query.filter(User.id == id).first()
-    query.update(request.json)
+    user = User.query.get(id)
+    data = request.get_json()
 
+    for key, value in data.items():
+        setattr(user, key, value)
     current_app.db.session.commit()
-    return user_schema.jsonify(query), 200
+
+    schema = UserSchema()
+
+    return schema.jsonify(user), 200
 
 
+# Delete a user by ID [DELETE]
+# TESTED - OK
 @user.route('/delete/<int:id>', methods=['DELETE'])
 def delete(id):
     user = User.query.get(id)
