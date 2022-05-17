@@ -8,9 +8,9 @@
 
  - **Database:** Alembic, SQLite, SQLAlchemy
 
-## Falta Fazer:
-- Autentificar as rotas
-- gerar hash das senhas
+## To Do:
+- Autentificar as rotas✔️
+- gerar hash das senhas✔️
 - criar testes com o Fazer
 - criar instancia do server
 - migrar o banco e seeders
