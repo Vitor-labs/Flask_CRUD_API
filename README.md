@@ -8,8 +8,17 @@
 
  - **Database:** Alembic, SQLite, SQLAlchemy
 
+## Falta Fazer:
+- Autentificar as rotas
+- gerar hash das senhas
+- criar testes com o Fazer
+- criar instancia do server
+- migrar o banco e seeders
+- adicionar loggers
+
+
 ## How to run this project
-- in a linux shell:
+- on linux:
 ```sh
 export FLASK_APP=app
 export FLASK_ENV=Development
@@ -17,7 +26,7 @@ export FLASK_DEBUG=True
 
 flask run
 ```
-- in windows:
+- on windows:
 ```cmd
 set FLASK_APP=app
 set FLASK_ENV=Development

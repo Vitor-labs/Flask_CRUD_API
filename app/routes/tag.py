@@ -2,6 +2,7 @@ from flask import Blueprint, current_app, request, jsonify
 
 from ..models.models import Tag
 from ..models.serializer import TagSchema
+from .auth import validate_jwt
 
 
 tag = Blueprint('Tag', __name__, url_prefix='/tag')
@@ -10,6 +11,7 @@ tag = Blueprint('Tag', __name__, url_prefix='/tag')
 # Show all tags [GET]
 # TESTED - OK
 @tag.route('/show', methods=['GET'])
+@validate_jwt
 def show():
     tag = Tag.query.all()
     schema = TagSchema(many=True)
@@ -20,6 +22,7 @@ def show():
 # Show one tag [GET]
 # TESTED - OK
 @tag.route('/show/<int:id>', methods=['GET'])
+@validate_jwt
 def show_id(id):
     tag = Tag.query.get(id)
     schema = TagSchema()
@@ -30,6 +33,7 @@ def show_id(id):
 # Create a tag [POST]
 # TESTED - OK
 @tag.route('/create', methods=['POST'])
+@validate_jwt
 def create():
     data = request.get_json()
     tag = Tag(**data)
@@ -45,6 +49,7 @@ def create():
 # Update a tagby ID [PATCH]
 # TESTING - OK
 @tag.route('/edit/<int:id>', methods=['PATCH'])
+@validate_jwt
 def edit(id):
     tag = Tag.query.get(id)
     data = request.get_json()
@@ -61,6 +66,7 @@ def edit(id):
 # Delete a tagby ID [DELETE]
 # TESTING - OK
 @tag.route('/delete/<int:id>', methods=['DELETE'])
+@validate_jwt
 def delete(id):
     tag = Tag.query.get(id)
     current_app.db.session.delete(tag)

@@ -2,6 +2,7 @@ from flask import Blueprint, current_app, request, jsonify
 
 from ..models.models import Comment
 from ..models.serializer import CommentSchema
+from .auth import validate_jwt
 
 
 comment = Blueprint('Comment', __name__, url_prefix='/comment')
@@ -10,6 +11,7 @@ comment = Blueprint('Comment', __name__, url_prefix='/comment')
 # Show all comments [GET]
 # TESTED - OK
 @comment.route('/show', methods=['GET'])
+@validate_jwt
 def show():
     comment = Comment.query.all()
     schema = CommentSchema(many=True)
@@ -20,6 +22,7 @@ def show():
 # Show one comment [GET]
 # TESTED - OK
 @comment.route('/show/<int:id>', methods=['GET'])
+@validate_jwt
 def show_id(id):
     comment = Comment.query.get(id)
     schema = CommentSchema()
@@ -30,6 +33,7 @@ def show_id(id):
 # Create a comment [POST]
 # TESTED - OK
 @comment.route('/create', methods=['POST'])
+@validate_jwt
 def create():
     data = request.get_json()
     comment = Comment(**data)
@@ -45,6 +49,7 @@ def create():
 # Update a commentby ID [PATCH]
 # TESTING - OK
 @comment.route('/edit/<int:id>', methods=['PATCH'])
+@validate_jwt
 def edit(id):
     comment = Comment.query.get(id)
     data = request.get_json()
@@ -62,6 +67,7 @@ def edit(id):
 # Delete a commentby ID [DELETE]
 # TESTING - OK
 @comment.route('/delete/<int:id>', methods=['DELETE'])
+@validate_jwt
 def delete(id):
     comment = Comment.query.get(id)
     current_app.db.session.delete(comment)

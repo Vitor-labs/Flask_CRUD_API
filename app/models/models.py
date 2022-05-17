@@ -15,7 +15,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.name
 
 
 class Account(db.Model):
@@ -26,7 +26,7 @@ class Account(db.Model):
     user = db.relationship('User', backref=db.backref('accounts', lazy=True))
 
     def __repr__(self):
-        return '<Account %r>' % self.name
+        return '<Account %r>' % self.username
 
 
 class Post(db.Model):
